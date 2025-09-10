@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-40(h2x*6mytrs!4e!@e*o@wg7(-a$!ddco7dlqvwebcd7#4@bh'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True # Changed to False for production on Render
-ALLOWED_HOSTS = ['https://promise-nl8k.onrender.com'] # Keep your Render domain
+ALLOWED_HOSTS = ['promise-nl8k.onrender.com'] # Keep your Render domain
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -99,6 +99,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 
 
