@@ -102,12 +102,14 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Cloudinary settings
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME', 'dhpzcmufv'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY', '898297248723962'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET', 'kj14CXE3xIgvZB_23mTrSiHSRgU'),
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
+
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
