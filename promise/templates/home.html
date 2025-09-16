@@ -9,10 +9,9 @@
   <meta property="og:description" content="Explore {{ user.name }}'s AI research, projects, and publications. Connect for collaboration or inquiries.">
   <meta property="og:image" content="{% if user.photo %}{{ user.photo.url }}{% else %}/static/images/default.png{% endif %}">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?display=swap&family=Inter:wght@300;400;500;600;700;900&family=Noto+Sans:wght@400;500;700;900" rel="stylesheet">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -20,330 +19,674 @@
     gtag('js', new Date());
     gtag('config', 'G-XXXXXXXXXX');
   </script>
-  <style type="text/tailwindcss">
+  <style>
     :root {
-      --primary-color: #1173d4;
+      --primary-color: #4A90E2;
       --secondary-color: #50E3C2;
       --accent-color: #F5A623;
+      --background-start: #E6F0FA;
+      --background-end: #F8FAFF;
+      --text-color: #2C3E50;
+      --card-bg: #FFF;
+      --shadow-color: rgba(0,0,0,0.1);
     }
-    .group:hover .group-hover\:text-primary {
-      color: var(--primary-color);
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', 'Noto Sans', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--background-start), var(--background-end));
+      color: var(--text-color);
+      line-height: 1.7;
+      overflow-x: hidden;
+      animation: bgFade 15s ease infinite;
     }
-    .group:hover .group-hover\:fill-primary {
-      fill: var(--primary-color);
+    @keyframes bgFade {
+      0% { background: linear-gradient(135deg, var(--background-start), var(--background-end)); }
+      50% { background: linear-gradient(135deg, var(--background-end), var(--background-start)); }
+      100% { background: linear-gradient(135deg, var(--background-start), var(--background-end)); }
     }
-    .laptop-video-container {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%;
-    }
-    .laptop-video {
-      position: absolute;
+    .container { max-width: 1200px; padding: 2rem; margin: 0 auto; }
+    .navbar {
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(5px);
+      padding: 0.75rem 1rem;
+      position: sticky;
       top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 10px var(--shadow-color);
+    }
+    .navbar-brand { font-weight: 700; font-size: 1.5rem; color: var(--primary-color); }
+    .nav-link {
+      color: var(--text-color);
+      font-weight: 500;
+      font-size: 1rem;
+      margin-left: 1.5rem;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+    .nav-link:hover { color: var(--primary-color); transform: scale(1.05); }
+    .nav-link.active { color: var(--primary-color); border-bottom: 2px solid var(--accent-color); }
+    .btn-talk {
+      background: var(--primary-color);
+      color: #FFF;
+      border-radius: 25px;
+      padding: 0.5rem 1.5rem;
+      font-weight: 600;
+      transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .btn-talk:hover {
+      background: linear-gradient(45deg, #4A90E2, #3A7CD8);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px var(--shadow-color);
+    }
+    .header-box {
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+      background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(230,240,250,0.8));
+      border-radius: 15px;
+      box-shadow: 0 8px 30px var(--shadow-color);
+      margin-bottom: 3rem;
+    }
+    .profile-img {
+      width: 250px;
+      height: 250px;
       object-fit: cover;
+      border-radius: 50%;
+      border: 8px solid #FFF;
+      box-shadow: 0 8px 25px var(--shadow-color);
+      animation: float 3s ease-in-out infinite;
     }
-    .portfolio-content-overlay {
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    .header-box h1 {
+      font-weight: 700;
+      font-size: 2.8rem;
+      color: var(--primary-color);
+      margin: 1rem 0 0.5rem;
+    }
+    .header-box h2 {
+      font-weight: 400;
+      font-size: 1.3rem;
+      color: #34495E;
+      margin-bottom: 1.5rem;
+    }
+    .profile-description {
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      color: #2D3748;
+      padding: 1rem;
+      background: rgba(255,255,255,0.5);
+      border-radius: 10px;
+    }
+    .profile-description.empty { font-style: italic; color: #666; }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-top: 1.5rem;
+    }
+    .social-icons a {
+      color: #FFF;
+      font-size: 1.4rem;
+      padding: 0.8rem;
+      border-radius: 50%;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .social-icons a:hover {
+      transform: scale(1.2);
+      box-shadow: 0 4px 12px var(--shadow-color);
+    }
+    .social-twitter { background: #1DA1F2; }
+    .social-facebook { background: #1877F2; }
+    .social-linkedin { background: #0A66C2; }
+    .social-instagram { background: #E1306C; }
+    .section-box {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 4px 20px var(--shadow-color);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .section-box.visible { opacity: 1; transform: translateY(0); }
+    .section-box:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px var(--shadow-color);
+    }
+    .section-box h2 {
+      font-weight: 600;
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+    .section-box h2::before {
+      content: '';
       position: absolute;
-      top: 6.5%;
-      left: 12.5%;
-      width: 75%;
-      height: 82%;
-      overflow-y: auto;
+      left: -0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 80%;
+      background: var(--accent-color);
+      border-radius: 2px;
     }
-    .portfolio-content-overlay::-webkit-scrollbar {
-      width: 8px;
+    .card-custom {
+      background: #FFF;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      border-left: 4px solid var(--accent-color);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .portfolio-content-overlay::-webkit-scrollbar-track {
-      background: #1a1f25;
+    .card-custom:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
-    .portfolio-content-overlay::-webkit-scrollbar-thumb {
-      background-color: #3e4a57;
-      border-radius: 4px;
-      border: 2px solid #1a1f25;
+    .publication-image, .project-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1rem;
     }
-    .portfolio-content-overlay::-webkit-scrollbar-thumb:hover {
-      background-color: #556270;
+    .video-iframe {
+      width: 100%;
+      height: 180px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border: none;
+    }
+    .publication-status {
+      background: var(--primary-color);
+      color: #FFF;
+      padding: 0.3rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      display: inline-block;
+      margin-bottom: 0.8rem;
+    }
+    .publication-title, .project-title, .education-degree, .video-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-color);
+      margin-bottom: 0.5rem;
+    }
+    .publication-meta, .project-languages, .education-years, .video-description {
+      font-size: 0.9rem;
+      color: #4A5568;
+      margin-bottom: 0.8rem;
+    }
+    .publication-description, .project-description, .video-description {
+      font-size: 0.95rem;
+      color: #2D3748;
+      margin-bottom: 1rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .publication-link-btn, .project-link-btn, .video-link-btn {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .publication-link-btn { background: var(--primary-color); color: #FFF; }
+    .project-link-btn { background: var(--secondary-color); color: #FFF; }
+    .video-link-btn { background: #FF0000; color: #FFF; }
+    .publication-link-btn:hover, .project-link-btn:hover, .video-link-btn:hover {
+      background: linear-gradient(45deg, #4A90E2, #3A7CD8);
+      transform: scale(1.05);
+    }
+    .publication-link-btn i, .project-link-btn i, .video-link-btn i { margin-left: 0.5rem; }
+    .publication-tags {
+      margin-top: 0.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .publication-tags a {
+      color: #666;
+      text-decoration: none;
+      font-size: 0.85rem;
+      background: #F1F5F9;
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      transition: color 0.3s ease, background 0.3s ease;
+    }
+    .publication-tags a:hover {
+      color: var(--primary-color);
+      background: #E6F0FA;
+    }
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
     .skill-badge {
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      color: #FFF;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .skill-badge:hover {
-      transform: scale(1.15);
+      transform: scale(1.1);
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .skill-python { background: #3776AB; }
+    .skill-javascript { background: #F7DF1E; color: #000; }
+    .skill-java { background: #007396; }
+    .skill-cpp { background: #00599C; }
+    .skill-html { background: #E34F26; }
+    .skill-css { background: #1572B6; }
+    .skill-react { background: #61DAFB; color: #000; }
+    .skill-nodejs { background: #339933; }
+    .skill-sql { background: #F29111; }
+    .skill-git { background: #F05032; }
+    .skill-docker { background: #2496ED; }
+    .skill-aws { background: #FF9900; }
+    .skill-django { background: #092E20; }
+    .skill-flask { background: #000; }
+    .skill-fastapi { background: #009688; }
+    .skill-spring { background: #6DB33F; }
+    .skill-laravel { background: #FF2D20; }
+    .skill-default { background: var(--secondary-color); }
+    .education-institute { font-size: 1rem; color: #2D3748; }
+    .feedback-form {
+      background: #FFF;
+      border-radius: 12px;
+      padding: 1.8rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      border-left: 4px solid var(--primary-color);
+    }
+    .feedback-form .form-group { margin-bottom: 1.2rem; }
+    .feedback-form label {
+      font-weight: 500;
+      color: var(--text-color);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+    .feedback-form input, .feedback-form textarea {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #E0E0E0;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .feedback-form input:focus, .feedback-form textarea:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 5px rgba(74,144,226,0.3);
+      outline: none;
+    }
+    .feedback-form .form-error {
+      color: #991B1B;
+      font-size: 0.8rem;
+      margin-top: 0.2rem;
+    }
+    .feedback-form .btn-submit {
+      background: var(--primary-color);
+      color: #FFF;
+      border-radius: 20px;
+      padding: 0.7rem 1.8rem;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .feedback-form .btn-submit:hover {
+      background: linear-gradient(45deg, #4A90E2, #3A7CD8);
+      transform: scale(1.05);
+    }
+    .feedback-form .btn-submit:disabled {
+      background: #A0A0A0;
+      cursor: not-allowed;
+    }
+    .spinner { display: none; font-size: 0.9rem; margin-left: 0.5rem; }
+    .btn-submit:disabled .spinner { display: inline-block; }
+    .footer {
+      text-align: center;
+      padding: 1.5rem 0;
+      background: rgba(255,255,255,0.9);
+      color: #4A5568;
+      font-size: 0.9rem;
+      box-shadow: 0 -2px 10px var(--shadow-color);
+    }
+    .footer-social {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .footer-social a {
+      color: #4A5568;
+      font-size: 1.2rem;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+    .footer-social a:hover {
+      color: var(--primary-color);
+      transform: scale(1.2);
+    }
+    .modal-content {
+      border-radius: 12px;
+      border: none;
+      box-shadow: 0 4px 20px var(--shadow-color);
+    }
+    .modal-header {
+      background: var(--primary-color);
+      color: #FFF;
+      border-radius: 12px 12px 0 0;
+    }
+    .modal-title { font-weight: 600; }
+    .modal-body { font-size: 1rem; color: #2D3748; }
+    .modal-footer { border-top: none; }
+    .btn-close-modal {
+      background: var(--primary-color);
+      color: #FFF;
+      border-radius: 20px;
+      padding: 0.5rem 1.2rem;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .btn-close-modal:hover {
+      background: #3A7CD8;
+      transform: scale(1.05);
+    }
+    .alert-danger {
+      background: #FEE2E2;
+      color: #991B1B;
+      border: 1px solid #FECACA;
+      border-radius: 6px;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 768px) {
+      .header-box h1 { font-size: 2.2rem; }
+      .profile-img { width: 180px; height: 180px; }
+      .header-box { padding: 2.5rem 1rem; }
+      .section-box { padding: 1.5rem; }
+      .section-box h2 { font-size: 1.7rem; }
+      .nav-link { margin-left: 0.8rem; font-size: 0.9rem; }
+      .social-icons a { font-size: 1.2rem; padding: 0.6rem; }
+      .feedback-form { padding: 1.5rem; }
+      .feedback-form input, .feedback-form textarea { font-size: 0.9rem; }
+      .feedback-form .btn-submit { padding: 0.5rem 1.5rem; }
+      .video-iframe, .project-image, .publication-image { height: 160px; }
     }
   </style>
 </head>
-<body class="bg-gray-900 text-gray-200" style='font-family: Inter, "Noto Sans", sans-serif;'>
-<div class="relative flex h-screen w-full flex-col items-center justify-center bg-[#111418] dark group/design-root overflow-hidden">
-  <div class="laptop-video-container">
-    <video autoplay class="laptop-video" loop muted playsinline>
-      <source src="https://storage.googleapis.com/pixelverse-public/template-assets/videos/laptop-mockup.mp4" type="video/mp4">
-    </video>
-    <div class="portfolio-content-overlay">
-      <div class="h-full w-full bg-[#111418]">
-        <div class="layout-container flex h-full grow flex-col">
-          <!-- Navigation -->
-          <header class="sticky top-0 z-20 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#283039] bg-[#111418]/80 px-10 py-4 backdrop-blur-sm">
-            <div class="flex items-center gap-4 text-white">
-              <a class="flex items-center gap-3 group" href="#">
-                <svg class="h-6 w-6 text-[var(--primary-color)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                  <g clip-path="url(#clip0_6_319)">
-                    <path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor"></path>
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_6_319">
-                      <rect fill="white" height="48" width="48"></rect>
-                    </clipPath>
-                  </defs>
-                </svg>
-                <h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">{{ user.name }}</h2>
-              </a>
-            </div>
-            <nav class="flex items-center gap-8">
-              <a class="text-gray-300 hover:text-[var(--primary-color)] text-sm font-medium transition-colors" href="#home">Home</a>
-              <a class="text-gray-300 hover:text-[var(--primary-color)] text-sm font-medium transition-colors" href="#about">About</a>
-              <a class="text-gray-300 hover:text-[var(--primary-color)] text-sm font-medium transition-colors" href="#skills">Skills</a>
-              <a class="text-gray-300 hover:text-[var(--primary-color)] text-sm font-medium transition-colors" href="#education">Education</a>
-              <a class="text-gray-300 hover:text-[var(--primary-color)] text-sm font-medium transition-colors" href="#projects">Projects</a>
-              <a class="text-gray-300 hover:text-[var(--primary-color)] text-sm font-medium transition-colors" href="#publications">Publications</a>
-              <a class="text-gray-300 hover:text-[var(--primary-color)] text-sm font-medium transition-colors" href="#videos">Videos</a>
-              <a class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-10 px-4 bg-[var(--primary-color)] text-white text-sm font-bold leading-normal tracking-wide shadow-lg hover:bg-opacity-90 transition-colors" href="#feedback">Let's Talk</a>
-            </nav>
-          </header>
-          <main class="flex-1 px-10">
-            <div class="mx-auto max-w-5xl py-16">
-              <!-- Header -->
-              <section class="flex flex-col items-center justify-center text-center py-20" id="home">
-                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-40 w-40 mb-6 border-4 border-gray-700 shadow-lg" style="{% if user.photo %}background-image: url('{{ user.photo.url }}');{% else %}background-image: url('/static/images/default.png');{% endif %}"></div>
-                <h1 class="text-white text-5xl font-bold leading-tight tracking-tighter">{{ user.name }}</h1>
-                <p class="text-[#9dabb9] text-xl font-normal leading-normal mt-2">AI Researcher</p>
-              </section>
-              <!-- About -->
-              <section class="py-16 scroll-mt-20" id="about">
-                <h2 class="text-white text-3xl font-bold leading-tight tracking-tight mb-8">🙋 About Me</h2>
-                <p class="text-gray-300 text-lg font-normal leading-relaxed {% if not user.bio %}italic text-gray-500{% endif %}">
-                  {{ user.bio|default:"No bio available yet. Please update the profile in the admin panel." }}
-                </p>
-                <div class="flex justify-center gap-4 mt-6">
-                  {% if user.twitter %}
-                    <a href="{{ user.twitter }}" target="_blank" class="text-white bg-[#1DA1F2] p-3 rounded-full hover:scale-110 transition-transform" aria-label="Follow {{ user.name }} on Twitter" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow on Twitter"><i class="fab fa-twitter"></i></a>
-                  {% endif %}
-                  {% if user.facebook %}
-                    <a href="{{ user.facebook }}" target="_blank" class="text-white bg-[#1877F2] p-3 rounded-full hover:scale-110 transition-transform" aria-label="Follow {{ user.name }} on Facebook" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow on Facebook"><i class="fab fa-facebook-f"></i></a>
-                  {% endif %}
-                  {% if user.linkedin %}
-                    <a href="{{ user.linkedin }}" target="_blank" class="text-white bg-[#0A66C2] p-3 rounded-full hover:scale-110 transition-transform" aria-label="Connect with {{ user.name }} on LinkedIn" data-bs-toggle="tooltip" data-bs-placement="top" title="Connect on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                  {% endif %}
-                  {% if user.instagram %}
-                    <a href="{{ user.instagram }}" target="_blank" class="text-white bg-[#E1306C] p-3 rounded-full hover:scale-110 transition-transform" aria-label="Follow {{ user.name }} on Instagram" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow on Instagram"><i class="fab fa-instagram"></i></a>
-                  {% endif %}
-                </div>
-                {% if user.resume %}
-                  <a href="{{ user.resume.url }}" class="mt-6 inline-flex items-center justify-center rounded-md border-2 border-[var(--primary-color)] text-[var(--primary-color)] font-semibold py-2 px-4 hover:bg-[var(--primary-color)] hover:text-white transition-all" download onclick="gtag('event', 'download_resume', { 'event_category': 'engagement', 'event_label': 'Resume Download' });">Download Resume <i class="fas fa-download ml-2"></i></a>
-                {% endif %}
-              </section>
-              <!-- Skills -->
-              <section class="py-16 scroll-mt-20" id="skills">
-                <h2 class="text-white text-3xl font-bold leading-tight tracking-tight mb-8">⚡ Core Competencies</h2>
-                <div class="flex flex-wrap gap-3">
-                  {% for skill in skills %}
-                    <span class="skill-badge text-white text-sm font-medium py-2 px-4 rounded-full {{ skill.name|lower|slugify }} bg-[var(--secondary-color)] hover:bg-opacity-90">{{ skill.name }}</span>
-                  {% empty %}
-                    <p class="text-gray-500">No skills listed yet.</p>
-                  {% endfor %}
-                </div>
-              </section>
-              <!-- Education -->
-              <section class="py-16 scroll-mt-20" id="education">
-                <h2 class="text-white text-3xl font-bold leading-tight tracking-tight mb-8">🎓 Education</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {% for education in educations %}
-                    <div class="flex flex-col gap-4 bg-[#1a1f25] rounded-lg p-6 shadow-lg transform hover:-translate-y-1 transition-transform duration-300">
-                      <h3 class="text-white text-xl font-semibold">{{ education.degree }}</h3>
-                      <p class="text-[#9dabb9] text-base">{{ education.start_year }} - {{ education.end_year|default:"Present" }}</p>
-                      <p class="text-gray-300 text-base">{{ education.institute }}</p>
-                    </div>
-                  {% empty %}
-                    <p class="text-gray-500">No education records available at this time.</p>
-                  {% endfor %}
-                </div>
-              </section>
-              <!-- Projects -->
-              <section class="py-16 scroll-mt-20" id="projects">
-                <h2 class="text-white text-3xl font-bold leading-tight tracking-tight mb-8">💻 Professional Projects</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {% for project in projects %}
-                    <div class="flex flex-col gap-4 bg-[#1a1f25] rounded-lg overflow-hidden shadow-lg transform hover:-translate-y-1 transition-transform duration-300">
-                      {% if project.image %}
-                        <div class="w-full bg-center bg-no-repeat aspect-video bg-cover" style="background-image: url('{{ project.image.url }}');"></div>
-                      {% endif %}
-                      <div class="p-6">
-                        <h3 class="text-white text-xl font-semibold">{{ project.title }}</h3>
-                        <p class="text-[#9dabb9] text-base mt-2 line-clamp-3">{{ project.description }}</p>
-                        {% if project.language %}
-                          <p class="text-[#9dabb9] text-sm mt-2">Made with: {{ project.language }}</p>
-                        {% endif %}
-                        {% if project.link %}
-                          <a href="{{ project.link }}" target="_blank" class="inline-flex items-center mt-4 rounded-md bg-[var(--secondary-color)] text-white font-semibold py-2 px-4 hover:bg-opacity-90">View Project <i class="fas fa-external-link-alt ml-2"></i></a>
-                        {% endif %}
-                      </div>
-                    </div>
-                  {% empty %}
-                    <p class="text-gray-500">No projects available at this time.</p>
-                  {% endfor %}
-                </div>
-              </section>
-              <!-- Publications -->
-              <section class="py-16 scroll-mt-20" id="publications">
-                <h2 class="text-white text-3xl font-bold leading-tight tracking-tight mb-8">📚 Research Publications</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {% for pub in publications %}
-                    <div class="flex flex-col gap-4 bg-[#1a1f25] rounded-lg overflow-hidden shadow-lg transform hover:-translate-y-1 transition-transform duration-300">
-                      {% if pub.image %}
-                        <div class="w-full bg-center bg-no-repeat aspect-video bg-cover" style="background-image: url('{{ pub.image.url }}');"></div>
-                      {% endif %}
-                      <div class="p-6">
-                        <span class="inline-block bg-[var(--primary-color)] text-white text-sm font-medium py-1 px-3 rounded-full mb-2">PUBLISHED</span>
-                        <h3 class="text-white text-xl font-semibold">{{ pub.title }}</h3>
-                        <p class="text-[#9dabb9] text-base mt-2">{{ pub.journal }}<br>{{ pub.date|date:"F Y" }}</p>
-                        <p class="text-[#9dabb9] text-base mt-2 line-clamp-3">{{ pub.description }}</p>
-                        {% if pub.link %}
-                          <a href="{{ pub.link }}" target="_blank" class="inline-flex items-center mt-4 rounded-md bg-[var(--primary-color)] text-white font-semibold py-2 px-4 hover:bg-opacity-90">Access Publication <i class="fas fa-external-link-alt ml-2"></i></a>
-                        {% endif %}
-                        <div class="flex flex-wrap gap-2 mt-4">
-                          {% for tag in pub.get_tags_list %}
-                            <a href="#" class="text-gray-400 bg-[#283039] text-sm font-medium py-1 px-3 rounded-full hover:bg-[#3e4a57] hover:text-[var(--primary-color)]">{{ tag }}</a>
-                          {% endfor %}
-                        </div>
-                      </div>
-                    </div>
-                  {% empty %}
-                    <p class="text-gray-500">No publications available at this time.</p>
-                  {% endfor %}
-                </div>
-              </section>
-              <!-- Videos -->
-              <section class="py-16 scroll-mt-20" id="videos">
-                <h2 class="text-white text-3xl font-bold leading-tight tracking-tight mb-8">🎥 Videos</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {% for video in videos %}
-                    <div class="flex flex-col gap-4 bg-[#1a1f25] rounded-lg overflow-hidden shadow-lg transform hover:-translate-y-1 transition-transform duration-300">
-                      {% if video.get_youtube_id %}
-                        <iframe class="w-full aspect-video rounded-t-lg" src="https://www.youtube.com/embed/{{ video.get_youtube_id }}" title="{{ video.title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                      {% else %}
-                        <p class="text-gray-500 p-6">Invalid YouTube URL for {{ video.title }}</p>
-                      {% endif %}
-                      <div class="p-6">
-                        <h3 class="text-white text-xl font-semibold">{{ video.title }}</h3>
-                        <p class="text-[#9dabb9] text-base mt-2 line-clamp-3">{{ video.description|default:"No description available." }}</p>
-                        <a href="{{ video.url }}" target="_blank" class="inline-flex items-center mt-4 rounded-md bg-[#FF0000] text-white font-semibold py-2 px-4 hover:bg-opacity-90">Watch on YouTube <i class="fas fa-external-link-alt ml-2"></i></a>
-                      </div>
-                    </div>
-                  {% empty %}
-                    <p class="text-gray-500">No videos available at this time.</p>
-                  {% endfor %}
-                </div>
-              </section>
-              <!-- Feedback -->
-              <section class="py-16 scroll-mt-20" id="feedback">
-                <h2 class="text-white text-3xl font-bold leading-tight tracking-tight mb-8">💬 Contact Me</h2>
-                {% if messages %}
-                  {% for message in messages %}
-                    <div class="bg-red-900 text-red-200 border border-red-700 rounded-lg p-4 mb-4 flex justify-between items-center">
-                      {{ message }}
-                      <button type="button" class="text-red-200 hover:text-red-100" data-bs-dismiss="alert" aria-label="Close"><i class="fas fa-times"></i></button>
-                    </div>
-                  {% endfor %}
-                {% endif %}
-                <form method="post" class="max-w-xl mx-auto space-y-6" id="feedback-form">
-                  {% csrf_token %}
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <label class="flex flex-col">
-                      <span class="text-gray-300 text-sm font-medium mb-2">Name <span class="text-red-500">*</span></span>
-                      {{ feedback_form.name }}
-                      {% if feedback_form.name.errors %}
-                        <div class="text-red-400 text-sm mt-1">{{ feedback_form.name.errors|join:", " }}</div>
-                      {% endif %}
-                    </label>
-                    <label class="flex flex-col">
-                      <span class="text-gray-300 text-sm font-medium mb-2">Email <span class="text-red-500">*</span></span>
-                      {{ feedback_form.email }}
-                      {% if feedback_form.email.errors %}
-                        <div class="text-red-400 text-sm mt-1">{{ feedback_form.email.errors|join:", " }}</div>
-                      {% endif %}
-                    </label>
-                  </div>
-                  <label class="flex flex-col">
-                    <span class="text-gray-300 text-sm font-medium mb-2">WhatsApp (with country code, e.g., +12025550123, optional)</span>
-                    {{ feedback_form.whatsapp }}
-                    {% if feedback_form.whatsapp.errors %}
-                      <div class="text-red-400 text-sm mt-1">{{ feedback_form.whatsapp.errors|join:", " }}</div>
-                    {% endif %}
-                  </label>
-                  <label class="flex flex-col">
-                    <span class="text-gray-300 text-sm font-medium mb-2">Message <span class="text-red-500">*</span></span>
-                    {{ feedback_form.message }}
-                    {% if feedback_form.message.errors %}
-                      <div class="text-red-400 text-sm mt-1">{{ feedback_form.message.errors|join:", " }}</div>
-                    {% endif %}
-                  </label>
-                  <div class="flex justify-end">
-                    <button type="submit" class="flex min-w-[120px] cursor-pointer items-center justify-center rounded-md h-12 px-6 bg-[var(--primary-color)] hover:bg-[#0f63b8] text-white text-base font-bold leading-normal tracking-wide transition-colors duration-300" id="submit-btn">
-                      <span class="truncate">Submit</span>
-                      <span class="spinner hidden ml-2"><i class="fas fa-spinner fa-spin"></i></span>
-                    </button>
-                  </div>
-                </form>
-              </section>
-            </div>
-          </main>
-          <!-- Footer -->
-          <footer class="text-center py-8 bg-[#111418]/80 border-t border-[#283039] text-gray-400">
-            <p>&copy; {{ user.name }} 2025. All Rights Reserved.</p>
-            <div class="flex justify-center gap-4 mt-4">
-              {% if user.twitter %}
-                <a href="{{ user.twitter }}" target="_blank" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors" aria-label="Follow {{ user.name }} on Twitter" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow on Twitter"><i class="fab fa-twitter"></i></a>
-              {% endif %}
-              {% if user.facebook %}
-                <a href="{{ user.facebook }}" target="_blank" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors" aria-label="Follow {{ user.name }} on Facebook" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow on Facebook"><i class="fab fa-facebook-f"></i></a>
-              {% endif %}
-              {% if user.linkedin %}
-                <a href="{{ user.linkedin }}" target="_blank" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors" aria-label="Connect with {{ user.name }} on LinkedIn" data-bs-toggle="tooltip" data-bs-placement="top" title="Connect on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-              {% endif %}
-              {% if user.instagram %}
-                <a href="{{ user.instagram }}" target="_blank" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors" aria-label="Follow {{ user.name }} on Instagram" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow on Instagram"><i class="fab fa-instagram"></i></a>
-              {% endif %}
-            </div>
-          </footer>
-        </div>
-      </div>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">{{ user.name }}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#skills">Skills</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#education">Education</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#projects">Projects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#publications">Publications</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#videos">Videos</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-talk" href="#feedback">Let's Talk</a>
+        </li>
+      </ul>
     </div>
   </div>
+</nav>
+<div class="container py-4">
+  <!-- Header -->
+  <header class="header-box position-relative" id="home" role="banner">
+    {% if user.photo %}
+      <img src="{{ user.photo.url }}" alt="{{ user.name }}'s Profile Photo" class="profile-img mx-auto d-block" loading="lazy">
+    {% else %}
+      <img src="/static/images/default.png" alt="Default Profile Photo" class="profile-img mx-auto d-block" loading="lazy">
+    {% endif %}
+    <h1>{{ user.name }}</h1>
+    <h2>AI Researcher</h2>
+  </header>
+  <!-- About -->
+  <section class="section-box" id="about" role="region" aria-labelledby="about-heading">
+    <h2 id="about-heading">🙋 About Me</h2>
+    <div class="profile-description {% if not user.bio %}empty{% endif %}" aria-label="Profile description">
+      {{ user.bio|default:"No bio available yet. Please update the profile in the admin panel." }}
+    </div>
+    <div class="social-icons">
+      {% if user.twitter %}
+        <a href="{{ user.twitter }}" target="_blank" class="social-twitter" aria-label="Follow {{ user.name }} on Twitter" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow on Twitter"><i class="fab fa-twitter"></i></a>
+      {% endif %}
+      {% if user.facebook %}
+        <a href="{{ user.facebook }}" target="_blank" class="social-facebook" aria-label="Follow {{ user.name }} on Facebook" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow on Facebook"><i class="fab fa-facebook-f"></i></a>
+      {% endif %}
+      {% if user.linkedin %}
+        <a href="{{ user.linkedin }}" target="_blank" class="social-linkedin" aria-label="Connect with {{ user.name }} on LinkedIn" data-bs-toggle="tooltip" data-bs-placement="top" title="Connect on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      {% endif %}
+      {% if user.instagram %}
+        <a href="{{ user.instagram }}" target="_blank" class="social-instagram" aria-label="Follow {{ user.name }} on Instagram" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow on Instagram"><i class="fab fa-instagram"></i></a>
+      {% endif %}
+    </div>
+    {% if user.resume %}
+      <a href="{{ user.resume.url }}" class="btn btn-outline-primary mt-3" download type="application/pdf" onclick="gtag('event', 'download_resume', { 'event_category': 'engagement', 'event_label': 'Resume Download' });">Download Resume <i class="fas fa-download"></i></a>
+    {% endif %}
+  </section>
+  <!-- Skills -->
+  <section class="section-box" id="skills" role="region" aria-labelledby="skills-heading">
+    <h2 id="skills-heading">⚡ Core Competencies</h2>
+    <div class="skills-container">
+      {% for skill in skills %}
+        <span class="skill-badge skill-{{ skill.name|lower|slugify }}">{{ skill.name }}</span>
+      {% empty %}
+        <p>No skills listed yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+  <!-- Education -->
+  <section class="section-box" id="education" role="region" aria-labelledby="education-heading">
+    <h2 id="education-heading">🎓 Education</h2>
+    <div class="row">
+      {% for education in educations %}
+        <div class="col-md-6 mb-4">
+          <div class="card-custom">
+            <h3 class="education-degree">{{ education.degree }}</h3>
+            <p class="education-years">{{ education.start_year }} - {{ education.end_year|default:"Present" }}</p>
+            <p class="education-institute">{{ education.institute }}</p>
+          </div>
+        </div>
+      {% empty %}
+        <p>No education records available at this time.</p>
+      {% endfor %}
+    </div>
+  </section>
+  <!-- Projects -->
+  <section class="section-box" id="projects" role="region" aria-labelledby="projects-heading">
+    <h2 id="projects-heading">💻 Professional Projects</h2>
+    <div class="row">
+      {% for project in projects %}
+        <div class="col-md-6 mb-4">
+          <div class="card-custom">
+            {% if project.image %}
+              <img src="{{ project.image.url }}" alt="{{ project.title }} Image" class="project-image" loading="lazy">
+            {% endif %}
+            <h3 class="project-title">{{ project.title }}</h3>
+            <p class="project-description">{{ project.description }}</p>
+            {% if project.language %}
+              <p class="project-languages">Made with: {{ project.language }}</p>
+            {% endif %}
+            {% if project.link %}
+              <a href="{{ project.link }}" target="_blank" class="project-link-btn">View Project <i class="fas fa-external-link-alt"></i></a>
+            {% endif %}
+          </div>
+        </div>
+      {% empty %}
+        <p>No projects available at this time.</p>
+      {% endfor %}
+    </div>
+  </section>
+  <!-- Publications -->
+  <section class="section-box" id="publications" role="region" aria-labelledby="publications-heading">
+    <h2 id="publications-heading">📚 Research Publications</h2>
+    <div class="row">
+      {% for pub in publications %}
+        <div class="col-md-6 mb-4">
+          <div class="card-custom">
+            {% if pub.image %}
+              <img src="{{ pub.image.url }}" alt="{{ pub.title }} Cover" class="publication-image" loading="lazy">
+            {% endif %}
+            <span class="publication-status">PUBLISHED</span>
+            <h3 class="publication-title">{{ pub.title }}</h3>
+            <p class="publication-meta">{{ pub.journal }}<br>{{ pub.date|date:"F Y" }}</p>
+            <p class="publication-description">{{ pub.description }}</p>
+            {% if pub.link %}
+              <a href="{{ pub.link }}" target="_blank" class="publication-link-btn">Access Publication <i class="fas fa-external-link-alt"></i></a>
+            {% endif %}
+            <div class="publication-tags">
+              {% for tag in pub.get_tags_list %}
+                <a href="#">{{ tag }}</a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>No publications available at this time.</p>
+      {% endfor %}
+    </div>
+  </section>
+  <!-- Videos -->
+  <section class="section-box" id="videos" role="region" aria-labelledby="videos-heading">
+    <h2 id="videos-heading">🎥 Videos</h2>
+    <div class="row">
+      {% for video in videos %}
+        <div class="col-md-6 mb-4">
+          <div class="card-custom">
+            {% if video.get_youtube_id %}
+              <iframe class="video-iframe" src="https://www.youtube.com/embed/{{ video.get_youtube_id }}" title="{{ video.title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            {% else %}
+              <p>Invalid YouTube URL for {{ video.title }}</p>
+            {% endif %}
+            <h3 class="video-title">{{ video.title }}</h3>
+            <p class="video-description">{{ video.description|default:"No description available." }}</p>
+            <a href="{{ video.url }}" target="_blank" class="video-link-btn">Watch on YouTube <i class="fas fa-external-link-alt"></i></a>
+          </div>
+        </div>
+      {% empty %}
+        <p>No videos available at this time.</p>
+      {% endfor %}
+    </div>
+  </section>
+  <!-- Feedback -->
+  <section class="section-box" id="feedback" role="region" aria-labelledby="feedback-heading">
+    <h2 id="feedback-heading">💬 Contact Me</h2>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+    <form method="post" class="feedback-form" id="feedback-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_name">Name <span class="text-danger">*</span></label>
+        {{ feedback_form.name }}
+        {% if feedback_form.name.errors %}
+          <div class="form-error">{{ feedback_form.name.errors|join:", " }}</div>
+        {% endif %}
+      </div>
+      <div class="form-group">
+        <label for="id_email">Email <span class="text-danger">*</span></label>
+        {{ feedback_form.email }}
+        {% if feedback_form.email.errors %}
+          <div class="form-error">{{ feedback_form.email.errors|join:", " }}</div>
+        {% endif %}
+      </div>
+      <div class="form-group">
+        <label for="id_whatsapp">WhatsApp (with country code, e.g., +12025550123, optional)</label>
+        {{ feedback_form.whatsapp }}
+        {% if feedback_form.whatsapp.errors %}
+          <div class="form-error">{{ feedback_form.whatsapp.errors|join:", " }}</div>
+        {% endif %}
+      </div>
+      <div class="form-group">
+        <label for="id_message">Message <span class="text-danger">*</span></label>
+        {{ feedback_form.message }}
+        {% if feedback_form.message.errors %}
+          <div class="form-error">{{ feedback_form.message.errors|join:", " }}</div>
+        {% endif %}
+      </div>
+      <button type="submit" class="btn btn-submit" id="submit-btn">Submit <span class="spinner"><i class="fas fa-spinner fa-spin"></i></span></button>
+    </form>
+  </section>
 </div>
 <!-- Feedback Modal -->
 <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content bg-[#1a1f25] border-none rounded-lg shadow-lg">
-      <div class="modal-header bg-[var(--primary-color)] text-white rounded-t-lg">
+    <div class="modal-content">
+      <div class="modal-header">
         <h5 class="modal-title" id="feedbackModalLabel">Feedback Status</h5>
-        <button type="button" class="text-white hover:text-gray-200" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body text-gray-200" id="feedbackModalBody">
+      <div class="modal-body" id="feedbackModalBody">
         Your feedback has been successfully submitted. I'll get back to you soon!
       </div>
-      <div class="modal-footer border-t-0">
-        <button type="button" class="rounded-md bg-[var(--primary-color)] text-white font-semibold py-2 px-4 hover:bg-[#0f63b8] transition-colors" data-bs-dismiss="modal">Close</button>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-close-modal" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
 <!-- Back to Top Button -->
-<button id="back-to-top" class="fixed bottom-5 right-5 bg-[var(--primary-color)] text-white rounded-full p-3 hover:bg-[#0f63b8] transition-colors" style="display: none; z-index: 1000;">
+<button id="back-to-top" class="btn btn-primary" style="position: fixed; bottom: 20px; right: 20px; display: none; z-index: 1000;">
   <i class="fas fa-arrow-up"></i>
 </button>
+<!-- Footer -->
+<footer class="footer">
+  <p>&copy; {{ user.name }} 2025. All Rights Reserved.</p>
+  <div class="footer-social">
+    {% if user.twitter %}
+      <a href="{{ user.twitter }}" target="_blank" aria-label="Follow {{ user.name }} on Twitter" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow on Twitter"><i class="fab fa-twitter"></i></a>
+    {% endif %}
+    {% if user.facebook %}
+      <a href="{{ user.facebook }}" target="_blank" aria-label="Follow {{ user.name }} on Facebook" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow on Facebook"><i class="fab fa-facebook-f"></i></a>
+    {% endif %}
+    {% if user.linkedin %}
+      <a href="{{ user.linkedin }}" target="_blank" aria-label="Connect with {{ user.name }} on LinkedIn" data-bs-toggle="tooltip" data-bs-placement="top" title="Connect on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    {% endif %}
+    {% if user.instagram %}
+      <a href="{{ user.instagram }}" target="_blank" aria-label="Follow {{ user.name }} on Instagram" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow on Instagram"><i class="fab fa-instagram"></i></a>
+    {% endif %}
+  </div>
+</footer>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -365,7 +708,7 @@
   });
   // Highlight active nav link
   const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('nav a[href^="#"]');
+  const navLinks = document.querySelectorAll('.nav-link');
   window.addEventListener('scroll', () => {
     let current = '';
     sections.forEach(section => {
@@ -375,9 +718,9 @@
       }
     });
     navLinks.forEach(link => {
-      link.classList.remove('text-[var(--primary-color)]');
+      link.classList.remove('active');
       if (link.getAttribute('href').slice(1) === current) {
-        link.classList.add('text-[var(--primary-color)]');
+        link.classList.add('active');
       }
     });
   });
@@ -385,13 +728,11 @@
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('opacity-100', 'translate-y-0');
-        entry.target.classList.remove('opacity-0', 'translate-y-5');
+        entry.target.classList.add('visible');
       }
     });
   }, { threshold: 0.1 });
-  document.querySelectorAll('section').forEach(section => {
-    section.classList.add('opacity-0', 'translate-y-5', 'transition-all', 'duration-500');
+  document.querySelectorAll('.section-box').forEach(section => {
     observer.observe(section);
   });
   // Get CSRF token from form
@@ -408,10 +749,10 @@
     const modalBody = document.getElementById('feedbackModalBody');
     const modalTitle = document.getElementById('feedbackModalLabel');
     // Clear previous errors
-    document.querySelectorAll('.text-red-400').forEach(el => el.remove());
+    document.querySelectorAll('.form-error').forEach(el => el.remove());
     // Disable button and show spinner
     submitBtn.disabled = true;
-    submitBtn.querySelector('.spinner').classList.remove('hidden');
+    submitBtn.querySelector('.spinner').style.display = 'inline-block';
     fetch(form.action || window.location.pathname, {
       method: 'POST',
       body: new FormData(form),
@@ -437,7 +778,7 @@
     })
     .then(data => {
       submitBtn.disabled = false;
-      submitBtn.querySelector('.spinner').classList.add('hidden');
+      submitBtn.querySelector('.spinner').style.display = 'none';
       console.log('Response Data:', data);
       if (data.success === true || data.success === "true") {
         form.reset();
@@ -450,17 +791,17 @@
           const fieldEl = form.querySelector(`#id_${field}`);
           if (fieldEl) {
             const errorDiv = document.createElement('div');
-            errorDiv.className = 'text-red-400 text-sm mt-1';
+            errorDiv.className = 'form-error';
             errorDiv.textContent = errorList.map(e => e.message).join(', ');
             fieldEl.parentNode.appendChild(errorDiv);
           }
         }
         modalTitle.textContent = 'Submission Error';
-        modalBody.innerHTML = '<div class="bg-red-900 text-red-200 border border-red-700 rounded-lg p-4">Please correct the errors in the form.</div>';
+        modalBody.innerHTML = '<div class="alert alert-danger">Please correct the errors in the form.</div>';
         modal.show();
       } else {
         modalTitle.textContent = 'Submission Error';
-        modalBody.innerHTML = '<div class="bg-red-900 text-red-200 border border-red-700 rounded-lg p-4">Error: ' +
+        modalBody.innerHTML = '<div class="alert alert-danger">Error: ' +
           (data.rawResponse ? 'Unexpected response: ' + data.rawResponse :
            'Invalid response from server') + '</div>';
         modal.show();
@@ -468,10 +809,10 @@
     })
     .catch(error => {
       submitBtn.disabled = false;
-      submitBtn.querySelector('.spinner').classList.add('hidden');
+      submitBtn.querySelector('.spinner').style.display = 'none';
       console.error('Fetch Error:', error);
       modalTitle.textContent = 'Submission Error';
-      modalBody.innerHTML = '<div class="bg-red-900 text-red-200 border border-red-700 rounded-lg p-4">An error occurred: ' + error.message + '. Please try again later.</div>';
+      modalBody.innerHTML = '<div class="alert alert-danger">An error occurred: ' + error.message + '. Please try again later.</div>';
       modal.show();
     });
   });
